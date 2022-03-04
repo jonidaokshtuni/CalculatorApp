@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <title>Calculator App</title>
+  </head>
+  <body>
+    <h1>Calculator App</h1>
+    <div class="container">
+      <div class="firstContainer">
+        <div class="theme-switch-wrapper">
+          <input type="checkbox" class="checkbox" id="checkbox" />
+          <label class="label" for="checkbox">
+            <i class="fa fa-sun-o"></i>
+            <i class="fa fa-moon-o"></i>
+            <div class="ball"></div>
+          </label>
+        </div>
+
+        <div class="input-wrapper">
+          <div class="labelContainer">
+            <label class="firstLabel" id="expressionString"></label>
+          </div>
+          <div id="current">
+            <input
+              id="expressionResult"
+              type="text"
+              class="input"
+              value="0"
+              disabled
+            />
+          </div>
+        </div>
+      </div>
+      <div class="display">
+        <button
+          type="button"
+          id="reset"
+          class="all-clear"
+          value="all-clear"
+          onclick="reset()"
+        >
+          AC
+        </button>
+        <button type="button" id="plusMinus" class="plus-minus" value="+/-">
+          +/-
+        </button>
+        <button type="button" id="modulo" class="modulo" value="%">%</button>
+        <button type="button" id="operatorDivide" class="operator" value="/">
+          /
+        </button>
+        <button type="button" id="number7" class="numbers" value="7">7</button>
+        <button type="button" id="number8" class="numbers" value="8">8</button>
+        <button type="button" id="number9" class="numbers" value="9">9</button>
+        <button type="button" id="operatorMultiply" class="operator" value="*">
+          *
+        </button>
+
+        <button type="button" id="number4" class="numbers" value="4">4</button>
+        <button type="button" id="number5" class="numbers" value="5">5</button>
+        <button type="button" id="number6" class="numbers" value="6">6</button>
+        <button type="button" id="operatorMinus" class="operator" value="-">
+          -
+        </button>
+        <button type="button" id="number1" class="numbers" value="1">1</button>
+        <button type="button" id="number2" class="numbers" value="2">2</button>
+        <button type="button" id="number3" class="numbers" value="3">3</button>
+        <button type="button" id="operatorPlus" class="operator" value="+">
+          +
+        </button>
+        <button
+          id="backKey"
+          type="button"
+          class="numbers"
+          value="refresh"
+          onclick="removeLastChar()"
+        >
+          <i class="fa fa-repeat" aria-hidden="true"></i>
+        </button>
+        <button type="button" id="number0" class="numbers" value="0">0</button>
+        <button
+          type="button"
+          id="decimal"
+          class="numbers"
+          class="decimal"
+          value="."
+        >
+          .
+        </button>
+        <button
+          type="button"
+          id="equalSign"
+          class="equal-sign"
+          value="="
+          onclick="evaluationExpression(this.value, false)"
+        >
+          =
+        </button>
+      </div>
+    </div>
+    <script src="script.js"></script>
+    <script src="switch.js"></script>
+  </body>
+</html>
