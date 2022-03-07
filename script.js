@@ -177,7 +177,6 @@ keys.forEach((el) => {
         break;
     }
     if (!isLastCharAnOperator(labelString.innerHTML)) {
-      console.log(labelString.innerHTML);
       evaluateExpression(labelString.innerHTML, true);
     }
   });
