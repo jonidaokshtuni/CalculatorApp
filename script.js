@@ -32,7 +32,6 @@ function isLastCharAnOperator(str) {
   // console.log(lastChar);
   for (let x = 0; x < operators.length; x++) {
     if (lastChar == operators[x]) {
-      console.log(str, lastChar);
       isLastCharOperator = true;
       break;
     }
@@ -54,8 +53,7 @@ function evaluateExpression(operator, isOperator) {
     labelResult.value = eval(labelString.innerHTML);
   }
   if (!isOperator) {
-    labelString.innerHTML = "";
-    lastNumString = "";
+    labelString.innerHTML = labelResult.value;
   }
 }
 function removeLastChar() {
@@ -126,13 +124,11 @@ keys.forEach((el) => {
       case "%":
         keyType = "operator";
         lastOperator = ev.target.value;
-        console.log(isLastCharAnOperator(labelString.innerHTML));
         if (lastNumString == "") {
           labelString.innerHTML += "0" + ev.target.value;
         } else {
           //console.log(lastNumString);
           if (isLastCharAnOperator(labelString.innerHTML)) {
-            console.log(labelString.innerHTML);
             labelString.innerHTML = replaceLastCharString(
               labelString.innerHTML,
               ev.target.value
@@ -180,6 +176,9 @@ keys.forEach((el) => {
       default:
         break;
     }
-    evaluateExpression(labelString.innerHTML, true);
+    if (!isLastCharAnOperator(labelString.innerHTML)) {
+      console.log(labelString.innerHTML);
+      evaluateExpression(labelString.innerHTML, true);
+    }
   });
 });
