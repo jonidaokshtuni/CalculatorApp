@@ -38,13 +38,9 @@ function isLastCharAnOperator(str) {
   }
   return isLastCharOperator;
 }
-function evaluateExpression(operator, isOperator) {
-  // console.log(operator, isOperator);
-  if (!isOperator) {
-    if (isLastCharAnOperator(labelString.innerHTML)) {
-      //console.log(labelString.innerHTML);
-      labelString.innerHTML = labelString.innerHTML.slice(0, -1);
-    }
+function evaluateExpression(keyValue, isTemp) {
+  //console.log(keyValue, isTemp);
+  if (!isTemp) {
     labelString.innerHTML = labelResult.value;
   }
 
