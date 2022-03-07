@@ -97,6 +97,10 @@ keys.forEach((el) => {
             labelString.innerHTML,
             ev.target.value
           );
+        } else if (
+          labelString.innerHTML.at(labelString.innerHTML.length - 1) == ")"
+        ) {
+          return;
         } else {
           //console.log(labelString);
           labelString.innerHTML += ev.target.value;
