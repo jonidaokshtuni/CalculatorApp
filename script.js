@@ -3,10 +3,10 @@
 var keys = document.querySelectorAll(
   "#decimal, #number0, #number1, #number2, #number3, #number4, #number5, #number6, #number7, #number8, #number9, #operatorPlus, #operatorMinus, #operatorMultiply, #operatorDivide, #plusMinus, #modulo"
 );
-var expString = document.getElementById("expressionString");
-var expResult = document.getElementById("expressionResult");
+var labelString = document.getElementById("labelString");
+var labelResult = document.getElementById("labelResult");
 
-//console.log(expString);
+//console.log(labelString);
 var lastNumString = "";
 var lastOperator = "";
 var numberType;
@@ -19,8 +19,9 @@ function lastNumberString(str) {
 }
 
 function replaceLastCharString(str, char) {
+  console.log(str, char);
   let finalStr = str.substring(0, str.length - 1);
-  console.log(finalStr);
+  //console.log(finalStr);
   return finalStr + char;
 }
 
@@ -37,40 +38,35 @@ function isLastCharAnOperator(str) {
   }
   return isLastCharOperator;
 }
-function evaluationExpression(operator, isTemp) {
-  //console.log(operator, isTemp);
-  if (!isTemp) {
-    if (isLastCharAnOperator(expString.innerHTML)) {
-      console.log(expString.innerHTML);
-      expString.innerHTML = expString.innerHTML.slice(0, -1);
+function evaluateExpression(operator, isOperator) {
+  // console.log(operator, isOperator);
+  if (!isOperator) {
+    if (isLastCharAnOperator(labelString.innerHTML)) {
+      //console.log(labelString.innerHTML);
+      labelString.innerHTML = labelString.innerHTML.slice(0, -1);
     }
   }
-  if (!expString.innerHTML) {
-    expResult.innerHTML = "";
+  if (!labelString.innerHTML) {
+    labelResult.innerHTML = "";
   } else {
-    // console.log(eval(expString.innerHTML));
-    expResult.value = eval(expString.innerHTML);
+    // console.log(eval(labelString.innerHTML));
+    labelResult.value = eval(labelString.innerHTML);
   }
-  if (!isTemp) {
-    expString.innerHTML = "";
+  if (!isOperator) {
+    labelString.innerHTML = "";
     lastNumString = "";
   }
 }
 function removeLastChar() {
-  expString.innerHTML = expString.innerHTML.substring(
+  labelString.innerHTML = labelString.innerHTML.substring(
     0,
-    expString.innerHTML.length - 1
+    labelString.innerHTML.length - 1
   );
-  //expResult.innerHTML = (expString.innerHTML == "") ? "0" : evaluationExpression(temp, true);
-  //   if (expString.innerHTML == "") {
-  //     reset();
-  //   } else {
-  evaluationExpression(expString.innerHTML, true);
-  // }
+  evaluateExpression(labelString.innerHTML, true);
 }
 function reset() {
-  expResult.value = 0;
-  expString.innerHTML = "";
+  labelResult.value = 0;
+  labelString.innerHTML = "";
   lastNumString = "";
 }
 keys.forEach((el) => {
@@ -83,9 +79,9 @@ keys.forEach((el) => {
         if (lastNumString == "0") {
           // console.log(" 0");
         } else {
-          expString.innerHTML += ev.target.value;
+          labelString.innerHTML += ev.target.value;
         }
-        lastNumString = lastNumberString(expString.innerHTML);
+        lastNumString = lastNumberString(labelString.innerHTML);
         break;
       case "1":
       case "2":
@@ -97,9 +93,30 @@ keys.forEach((el) => {
       case "8":
       case "9":
         keyType = "number1-9";
+        if (lastNumString == "0") {
+          labelString.innerHTML = replaceLastCharString(
+            labelString.innerHTML,
+            ev.target.value
+          );
+        } else {
+          //console.log(labelString);
+          labelString.innerHTML += ev.target.value;
+        }
+        lastNumString = lastNumberString(labelString.innerHTML);
         break;
       case ".":
         keyType = "decimal";
+        if (lastNumString == "") {
+          //console.log(lastNumString);
+          labelString.innerHTML += "0.";
+        } else {
+          if (lastNumString.includes(".") && ev.target.value == ".") {
+            //console.log(ev.target.value);
+          } else {
+            labelString.innerHTML += ev.target.value;
+          }
+        }
+        lastNumString = lastNumberString(labelString.innerHTML);
         break;
       case "+":
       case "-":
@@ -108,99 +125,60 @@ keys.forEach((el) => {
       case "%":
         keyType = "operator";
         lastOperator = ev.target.value;
-        break;
-      case "+/-":
-        keyType = "plusMinus";
-        break;
-      default:
-        break;
-    }
-    switch (keyType) {
-      case "number1-9":
-        if (lastNumString == "0") {
-          expString.innerHTML = replaceLastCharString(
-            expString.innerHTML,
-            ev.target.value
-          );
-        } else {
-          //console.log(expString);
-          expString.innerHTML += ev.target.value;
-        }
-        lastNumString = lastNumberString(expString.innerHTML);
-        break;
-      case "zero":
-        if (lastNumString == "0") {
-          // console.log(" 0");
-        } else {
-          expString.innerHTML += ev.target.value;
-        }
-        lastNumString = lastNumberString(expString.innerHTML);
-        break;
-      case "decimal":
+        // console.log(lastNumString);
         if (lastNumString == "") {
+          labelString.innerHTML += "0" + ev.target.value;
+        } else {
           //console.log(lastNumString);
-          expString.innerHTML += "0.";
-        } else {
-          if (lastNumString.includes(".") && ev.target.value == ".") {
-            //console.log(ev.target.value);
-          } else {
-            expString.innerHTML += ev.target.value;
-          }
-        }
-        lastNumString = lastNumberString(expString.innerHTML);
-        break;
-      case "operator":
-        if (lastNumString == "") {
-          expString.innerHTML += "0" + ev.target.value;
-        } else {
-          if (isLastCharAnOperator(expString.innerHTML)) {
-            expString.innerHTML = replaceLastCharString(
-              expString.innerHTML,
+          if (isLastCharAnOperator(labelString.innerHTML)) {
+            //console.log(labelString.innerHTML);
+            labelString.innerHTML = replaceLastCharString(
+              labelString.innerHTML,
               ev.target.value
             );
           } else {
-            expString.innerHTML += ev.target.value;
+            labelString.innerHTML += ev.target.value;
           }
         }
-        lastNumString = "";
         break;
-      case "plusMinus":
+      case "+/-":
+        keyType = "plusMinus";
         if (
-          expString.innerHTML !== "" &&
-          !isLastCharAnOperator(expString.innerHTML)
+          labelString.innerHTML !== "" &&
+          !isLastCharAnOperator(labelString.innerHTML)
         ) {
-          //console.log(isLastCharAnOperator(expString.innerHTML));
+          //console.log(isLastCharAnOperator(labelString.innerHTML));
           if (lastOperator == "") {
-            if (expString.innerHTML == Math.abs(expString.innerHTML)) {
-              expString.innerHTML = -expString.innerHTML;
+            if (labelString.innerHTML == Math.abs(labelString.innerHTML)) {
+              labelString.innerHTML = -labelString.innerHTML;
             } else {
-              expString.innerHTML = Math.abs(eval(expString.innerHTML));
+              labelString.innerHTML = Math.abs(eval(labelString.innerHTML));
             }
           } else {
-            // console.log(expString.innerHTML);
-            var array = expString.innerHTML.split(lastOperator),
+            // console.log(labelString.innerHTML);
+            var array = labelString.innerHTML.split(lastOperator),
               lastIndex = array.length - 1,
               newValue = "",
               oldValue = "";
-            //console.log(lastIndex, array, array[lastIndex], lastNumString);
+            //console.log(lastIndex, array, array[lastIndex], lastOperator);
             if (array[lastIndex] == Math.abs(array[lastIndex])) {
               newValue = "(" + -array[lastIndex] + ")";
             } else {
               newValue = Math.abs(eval(array[lastIndex]));
             }
-            newValue = "(" + -array[lastIndex] + ")";
+
             for (var i = 0; i < lastIndex; i++) {
               // console.log(array[i]);
               oldValue += array[i] + lastOperator;
             }
             // console.log(oldValue, newValue);
-            expString.innerHTML = oldValue + newValue;
+            labelString.innerHTML = oldValue + newValue;
           }
         }
         break;
       default:
         break;
     }
-    evaluationExpression(expString.innerHTML, true);
+    evaluateExpression(labelString.innerHTML, true);
   });
 });

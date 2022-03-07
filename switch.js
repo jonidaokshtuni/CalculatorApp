@@ -5,7 +5,7 @@ const toggleSwitch = document.querySelector('input[type="checkbox"]');
 const label = document.querySelector("#label");
 function switchTheme(e) {
   if (e.target.checked) {
-    console.log(e);
+    //console.log(e);
     document.documentElement.setAttribute("data-theme", "dark");
     // console.log("dark");
   } else {
