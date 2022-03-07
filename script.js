@@ -45,29 +45,37 @@ function evaluateExpression(operator, isOperator) {
       //console.log(labelString.innerHTML);
       labelString.innerHTML = labelString.innerHTML.slice(0, -1);
     }
-  }
-  if (!labelString.innerHTML) {
-    labelResult.innerHTML = "";
-  } else {
-    // console.log(eval(labelString.innerHTML));
-    labelResult.value = eval(labelString.innerHTML);
-  }
-  if (!isOperator) {
     labelString.innerHTML = labelResult.value;
   }
+
+  !labelString.innerHTML
+    ? (labelResult.innerHTML = "")
+    : (labelResult.value = eval(labelString.innerHTML));
 }
+
 function removeLastChar() {
   labelString.innerHTML = labelString.innerHTML.substring(
     0,
     labelString.innerHTML.length - 1
   );
-  evaluateExpression(labelString.innerHTML, true);
+
+  if (
+    !isLastCharAnOperator(labelString.innerHTML) &&
+    labelString.innerHTML.at(labelString.innerHTML.length - 1) == ")"
+  ) {
+    evaluateExpression(labelString.innerHTML, true);
+  }
+  labelString.innerHTML == ""
+    ? (labelResult.value = 0)
+    : (labelResult.value = labelString.innerHTML);
 }
+
 function reset() {
   labelResult.value = 0;
   labelString.innerHTML = "";
   lastNumString = "";
 }
+
 keys.forEach((el) => {
   //console.log(el);
   el.addEventListener("click", (ev) => {
@@ -131,15 +139,12 @@ keys.forEach((el) => {
         if (lastNumString == "") {
           labelString.innerHTML += "0" + ev.target.value;
         } else {
-          //console.log(lastNumString);
-          if (isLastCharAnOperator(labelString.innerHTML)) {
-            labelString.innerHTML = replaceLastCharString(
-              labelString.innerHTML,
-              ev.target.value
-            );
-          } else {
-            labelString.innerHTML += ev.target.value;
-          }
+          isLastCharAnOperator(labelString.innerHTML)
+            ? (labelString.innerHTML = replaceLastCharString(
+                labelString.innerHTML,
+                ev.target.value
+              ))
+            : (labelString.innerHTML += ev.target.value);
         }
         break;
       case "+/-":
