@@ -47,6 +47,7 @@ function evaluateExpression(keyValue, isTemp) {
   !labelString.innerHTML
     ? (labelResult.innerHTML = "")
     : (labelResult.value = eval(labelString.innerHTML));
+  labelResult.value = parseFloat(labelResult.value).toLocaleString();
 }
 
 function removeLastChar() {
