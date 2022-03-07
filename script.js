@@ -19,7 +19,7 @@ function lastNumberString(str) {
 }
 
 function replaceLastCharString(str, char) {
-  console.log(str, char);
+  // console.log(str, char);
   let finalStr = str.substring(0, str.length - 1);
   //console.log(finalStr);
   return finalStr + char;
@@ -28,10 +28,11 @@ function replaceLastCharString(str, char) {
 function isLastCharAnOperator(str) {
   var isLastCharOperator = false;
   var lastChar = str.substring(str.length - 1);
-  var operators = ["+", "-", "*", "/"];
+  var operators = ["+", "-", "*", "/", "%"];
   // console.log(lastChar);
-  for (let x = 0; x < operators.length - 1; x++) {
+  for (let x = 0; x < operators.length; x++) {
     if (lastChar == operators[x]) {
+      console.log(str, lastChar);
       isLastCharOperator = true;
       break;
     }
@@ -125,13 +126,13 @@ keys.forEach((el) => {
       case "%":
         keyType = "operator";
         lastOperator = ev.target.value;
-        // console.log(lastNumString);
+        console.log(isLastCharAnOperator(labelString.innerHTML));
         if (lastNumString == "") {
           labelString.innerHTML += "0" + ev.target.value;
         } else {
           //console.log(lastNumString);
           if (isLastCharAnOperator(labelString.innerHTML)) {
-            //console.log(labelString.innerHTML);
+            console.log(labelString.innerHTML);
             labelString.innerHTML = replaceLastCharString(
               labelString.innerHTML,
               ev.target.value
